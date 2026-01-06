@@ -14,6 +14,10 @@ const useMyStore = create((set, get) => ({
   input: '',
   searchResults: [],
   searched: false,
+  selectValue: "",
+
+  
+  setSelectValue: (value) => set({ selectValue: value }),
 
   setInput: (value) => set({ input: value }),
 

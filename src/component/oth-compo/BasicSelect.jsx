@@ -19,14 +19,15 @@ export default function BasicSelect() {
   };
   getData();
  }, []);
-
+ 
+ const handleChange = (event) => {
+  setSelectValue(event.target.value);
+ };
+ 
  React.useEffect(() => {
   console.log(selectValue);
  }, [selectValue]);
 
- const handleChange = (event) => {
-  setSelectValue(event.target.value);
- };
 
  return (
   <FormControl size="small" sx={{ minWidth: 180 }}>
