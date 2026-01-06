@@ -2,10 +2,10 @@ import Card from "@mui/material/Card";
 import CardActionArea from "@mui/material/CardActionArea";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import PrImage from "./pr component/PrImage";
-import RightSection from "./pr component/RightSection";
+import PrImage from "./pr-component/PrImage";
+import RightSection from "./pr-component/RightSection";
 import { Box, CardContent } from "@mui/material";
-import Leftsection from "./pr component/Leftsection";
+import Leftsection from "./pr-component/Leftsection";
 
 export default function ProductDetails() {
  const [item, setItem] = useState(null);

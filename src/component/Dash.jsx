@@ -1,9 +1,9 @@
 import ProductCard from "./ProductCard";
 import useMyStore from "../store/store";
 import { Route, Routes, useNavigate } from "react-router-dom";
-import BasicPagination from "./oth compo/BasicPagination";
+import BasicPagination from "./oth-compo/BasicPagination";
 import { useEffect } from "react";
-import SearchAppBar from "./oth compo/SearchAppBar";
+import SearchAppBar from "./oth-compo/SearchAppBar";
 
 function Dash() {
  const products = useMyStore((state) => state.products);

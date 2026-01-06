@@ -4,8 +4,8 @@ import LoginForm from "./component/LoginForm";
 import Users from "./component/Users";
 import FullUserDetails from "./component/FullUserDetails";
 import ProductCard from "./component/ProductCard";
-import Layout from "./component/home page/Layout";
-import AdminRoute from "./component/oth compo/routes/AdminRoute";
+import Layout from "./component/home-page/Layout";
+import AdminRoute from "./component/oth-compo/routes/AdminRoute";
 import ProductDetails from "./component/ProductDetails";
 
 function App() {
