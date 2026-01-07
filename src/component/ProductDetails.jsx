@@ -1,11 +1,10 @@
 import Card from "@mui/material/Card";
-import CardActionArea from "@mui/material/CardActionArea";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import PrImage from "./pr-component/PrImage";
 import RightSection from "./pr-component/RightSection";
 import { Box, CardContent } from "@mui/material";
-import Leftsection from "./pr-component/Leftsection";
+import LeftSection from './pr-component/LeftSection'
 
 export default function ProductDetails() {
  const [item, setItem] = useState(null);
@@ -44,7 +43,7 @@ export default function ProductDetails() {
      </CardContent>
     </Box>
     <Box>
-     <Leftsection item={item} />
+     <LeftSection item={item} />
     </Box>
    </Box>
   </Card>

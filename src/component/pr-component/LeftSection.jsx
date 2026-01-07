@@ -9,7 +9,7 @@ import Desc from "./Desc";
 import RatingSection from "./RatingSection";
 import PrAbout from "./PrAbout";
 
-function Leftsection({ item }) {
+function LeftSection({ item }) {
  const [tab, setTab] = React.useState(0);
 
  return (
@@ -54,4 +54,4 @@ function Leftsection({ item }) {
  );
 }
 
-export default Leftsection;
+export default LeftSection;
