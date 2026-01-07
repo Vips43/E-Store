@@ -7,6 +7,7 @@ import ProductCard from "./component/ProductCard";
 import Layout from "./component/home-page/Layout";
 import AdminRoute from "./component/oth-compo/routes/AdminRoute";
 import ProductDetails from "./component/ProductDetails";
+import About from "./component/About";
 
 function App() {
  return (
@@ -14,6 +15,7 @@ function App() {
    <Routes>
     <Route element={<Layout />}>
      <Route path="/" element={<Dash />} />
+     <Route path="/about" element={<About />} />
      <Route path="/login" element={<LoginForm />} />
      <Route path="/users" element={<AdminRoute><Users /></AdminRoute>} />
      <Route path="/users/:id" element={<FullUserDetails />} />
