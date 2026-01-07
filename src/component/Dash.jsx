@@ -1,6 +1,6 @@
 import ProductCard from "./ProductCard";
 import useMyStore from "../store/store";
-import { Route, Routes, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import BasicPagination from "./oth-compo/BasicPagination";
 import { useEffect } from "react";
 import SearchAppBar from "./oth-compo/SearchAppBar";
@@ -9,8 +9,6 @@ function Dash() {
  const products = useMyStore((state) => state.products);
  const fetchData = useMyStore((state) => state.fetchData);
  const selectValue = useMyStore((s) => s.selectValue);
- const searchData = useMyStore((state) => state.searchData);
- const searched = useMyStore((state) => state.searched);
  const navigate = useNavigate();
 
  useEffect(() => {
