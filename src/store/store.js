@@ -1,5 +1,7 @@
 import { create } from "zustand";
 
+const BASE_URI = window.location.origin === `localhost` ? `http://localhost:3000` : `https://e-store-backend-steel.vercel.app`
+
 const useMyStore = create((set, get) => ({
   products: [],
   isLoading: false,
@@ -23,7 +25,7 @@ const useMyStore = create((set, get) => ({
 
   searchData: async () => {
     set({ searched: true });
-    const res = await fetch(`http://localhost:3000/search`);
+    const res = await fetch(`${BASE_URI}/search`);
     const data = await res.json();
     set({ searchResults: data.products || [] });
   },
@@ -36,7 +38,7 @@ const useMyStore = create((set, get) => ({
     set({ isLoading: true })
     try {
 
-      const res = await fetch(`http://localhost:3000/products?category=${selectValue || ''}&page=${page}&limit=${limit}`
+      const res = await fetch(`${BASE_URI}/products?category=${selectValue || ''}&page=${page}&limit=${limit}`
       );
       const data = await res.json();
       set({
@@ -55,7 +57,7 @@ const useMyStore = create((set, get) => ({
   fetchUsers: async () => {
     set({ isLoading: true })
     try {
-      const res = await fetch(`http://localhost:3000/users`)
+      const res = await fetch(`${BASE_URI}/users`)
       const data = await res.json();
 
       const admin = data.users.filter(user => user.role === 'admin')
