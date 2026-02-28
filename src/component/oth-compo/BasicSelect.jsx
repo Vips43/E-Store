@@ -23,11 +23,6 @@ export default function BasicSelect() {
  const handleChange = (event) => {
   setSelectValue(event.target.value);
  };
- 
- React.useEffect(() => {
-  console.log(selectValue);
- }, [selectValue]);
-
 
  return (
   <FormControl size="small" sx={{ minWidth: 180 }}>

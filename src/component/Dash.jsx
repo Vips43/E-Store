@@ -9,12 +9,15 @@ function Dash() {
  const products = useMyStore((state) => state.products);
  const fetchData = useMyStore((state) => state.fetchData);
  const selectValue = useMyStore((s) => s.selectValue);
+ const isLoading = useMyStore((s) => s.isLoading);
+
  const navigate = useNavigate();
 
  useEffect(() => {
   fetchData(1, 10);
  }, [selectValue]);
 
+ if (!products) return null;
 
  return (
   <div className="min-h-screen bg-gray-100 pb-10">
@@ -22,13 +25,19 @@ function Dash() {
     <SearchAppBar />
    </div>
    <div className="container mx-auto px-4">
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-     {products.map((pr) => (
-      <div key={pr.id} onClick={() => navigate(`/product/${pr.title}`)}>
-       <ProductCard pr={pr} />
-      </div>
-     ))}
-    </div>
+    {isLoading ? (
+     <div className="flex justify-center items-center min-h-100">
+      <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-sky-600"></div>
+     </div>
+    ) : (
+     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {products.map((pr) => (
+       <div key={pr.id} onClick={() => navigate(`/product/${pr.title}`)}>
+        <ProductCard pr={pr} />
+       </div>
+      ))}
+     </div>
+    )}
 
     <div className="flex justify-center my-5">
      <BasicPagination />

@@ -16,14 +16,14 @@ const useMyStore = create((set, get) => ({
   searched: false,
   selectValue: "",
 
-  
+
   setSelectValue: (value) => set({ selectValue: value }),
 
   setInput: (value) => set({ input: value }),
 
-  searchData: async (query) => {
+  searchData: async () => {
     set({ searched: true });
-    const res = await fetch(`https://dummyjson.com/products/search?q=${query}`);
+    const res = await fetch(`http://localhost:3000/search`);
     const data = await res.json();
     set({ searchResults: data.products || [] });
   },
@@ -33,25 +33,29 @@ const useMyStore = create((set, get) => ({
 
   fetchData: async (page = 1, limit = 10) => {
     const { selectValue } = get()
-    const skip = (page - 1) * limit;
     set({ isLoading: true })
     try {
-      const url = selectValue
-        ? `https://dummyjson.com/products/category/${selectValue}?limit=${limit}&skip=${skip}`
-        : `https://dummyjson.com/products?limit=${limit}&skip=${skip}`;
 
-      const res = await fetch(url);
+      const res = await fetch(`http://localhost:3000/products?category=${selectValue || ''}&page=${page}&limit=${limit}`
+      );
       const data = await res.json();
-      set({ products: data.products, totalProducts: data.total, page, limit, isLoading: false });
+      set({
+        products: data.products,
+        totalProducts: data.totalProducts,
+        page: data.page,
+        limit: data.limit,
+        isLoading: false
+      });;
     } catch (err) {
       set({ isLoading: false });
+      console.error("Frontend Error:", err);
     }
   },
 
   fetchUsers: async () => {
     set({ isLoading: true })
     try {
-      const res = await fetch(`https://dummyjson.com/users`)
+      const res = await fetch(`http://localhost:3000/users`)
       const data = await res.json();
 
       const admin = data.users.filter(user => user.role === 'admin')
@@ -73,12 +77,11 @@ export const useAuthStore = create((set) => ({
   isAuthenticated: !!localStorage.getItem("token"),
 
   login: (userWithRole) => {
-    localStorage.setItem("token", userWithRole.token);
     localStorage.setItem("authUser", JSON.stringify(userWithRole));
 
     set({
       user: userWithRole,
-      token: userWithRole.token,
+      token: userWithRole.accessToken,
       isAuthenticated: true,
     });
   },
@@ -91,4 +94,53 @@ export const useAuthStore = create((set) => ({
       isAuthenticated: false,
     });
   },
+}));
+
+export const useMyCart = create((set, get) => ({
+  cartCount: 0, //total items in cart
+  items: [], // array of products count and id
+  currProduct: '',
+  setCurrProduct: (val) => set({ currProduct: val }),
+
+  addCartCount: (product) => {
+    const { items } = get();
+    const id = product.id
+    const existingItem = items.find(item => item.id === id);
+    if (existingItem) {
+      const updateItem = items.map(item => item.id === id ? { ...item, count: item.count + 1 } : item);
+      set({ items: updateItem, cartCount: get().cartCount + 1 });
+    } else {
+      set({
+        items: [...items, { product, id, count: 1 }],
+        cartCount: get().cartCount + 1
+      })
+    }
+    console.log(items)
+  },
+  minCartCount: (id) => {
+    const { items, cartCount } = get();
+    const existingItem = items.find(item => item.id === id);
+
+    if (!existingItem) return;
+
+    if (existingItem) {
+      const updatedItems = items.map(item => item.id === id ? { ...item, count: item.count > 1 ? item.count - 1 : 0, } : item);
+
+      set({ items: updatedItems, cartCount: cartCount - 1 })
+    } else {
+      const updatedItems = items.filter(item => item.id !== id);
+      set({ items: updatedItems, cartCount: cartCount - 1 });
+    }
+  },
+  removeCartItems: (id) => {
+    const { items, cartCount } = get();
+    const itemToRemove = items.find(item => item.id === id);
+    if (itemToRemove) {
+      const updatedItems = items.filter(item => item.id !== id);
+      set({ items: updatedItems, cartCount: cartCount - itemToRemove.count })
+      console.log("items:", items, "cartCount:", cartCount - itemToRemove.count)
+      return;
+    }
+  },
+
 }));

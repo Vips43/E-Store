@@ -8,3 +8,29 @@
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
 }
+
+.loaderAnimation{
+  margin: 2rem 0;
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-align: center;
+  animation: loader 2s ease-in-out infinite;
+}
+
+@keyframes loader{
+  0%{
+    letter-spacing: 15px;
+  }
+  50%{
+    letter-spacing: normal;
+  }
+  60%{
+    letter-spacing: normal;
+  }
+  70%{
+    letter-spacing: normal;
+  }
+  100%{
+    letter-spacing: 15px;
+  }
+}

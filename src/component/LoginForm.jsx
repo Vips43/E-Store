@@ -5,8 +5,7 @@ import { useNavigate } from "react-router-dom";
 import useMyStore, { useAuthStore } from "../store/store";
 
 const LoginForm = () => {
- const [username, setUsername] = useState("");
- const [password, setPassword] = useState("");
+ const [user, setUser] = useState({ username: "", password: "" });
  const login = useAuthStore((s) => s.login);
  const role = useMyStore((state) => state.role);
  const fetchUsers = useMyStore((state) => state.fetchUsers);
@@ -20,8 +19,8 @@ const LoginForm = () => {
  const handleLogin = async () => {
   try {
    const res = await axios.post("https://dummyjson.com/auth/login", {
-    username,
-    password,
+    username: user.username,
+    password: user.password,
    });
 
    // find logged-in user from users list
@@ -39,7 +38,7 @@ const LoginForm = () => {
     ...res.data,
     role: matchedUser.role,
    };
-
+   console.log(userWithRole);
    login(userWithRole);
    navigate("/");
   } catch (err) {
@@ -64,7 +63,9 @@ const LoginForm = () => {
      fullWidth
      label="Username"
      margin="normal"
-     onChange={(e) => setUsername(e.target.value)}
+     onChange={(e) =>
+      setUser((prev) => ({ ...prev, username: e.target.value }))
+     }
     />
 
     <TextField
@@ -72,9 +73,11 @@ const LoginForm = () => {
      label="Password"
      type="password"
      margin="normal"
-     onChange={(e) => setPassword(e.target.value)}
+     onChange={(e) =>
+      setUser((prev) => ({ ...prev, password: e.target.value }))
+     }
     />
-
+    <span>show</span>
     <Button fullWidth variant="contained" sx={{ mt: 2 }} onClick={handleLogin}>
      Login
     </Button>

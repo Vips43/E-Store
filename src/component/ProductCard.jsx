@@ -6,7 +6,9 @@ import CurrencyPoundIcon from "@mui/icons-material/CurrencyPound";
 import InventoryIcon from "@mui/icons-material/Inventory";
 import { Chip, Box, Rating } from "@mui/material";
 
+
 export default function ProductCard({ pr }) {
+
  return (
   <Card sx={{ display: "flex", gap: 2, p: 2, transition: "0.2s", "&:hover": { transform: "translateY(-3px)", boxShadow: 6, }, }} >
    {/* LEFT IMAGE */}

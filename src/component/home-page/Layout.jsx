@@ -1,13 +1,13 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
-import HomePage from "./HomePage";
+import NavBar from "./NavBar";
 import "../../App.css"
 
 function Layout() {
  return (
   <>
   <div className="w-full h-screen overflow-y-auto hide-scrollbar">
-   <HomePage />
+   <NavBar />
    <Outlet />
   </div>
   </>

@@ -1,88 +1,96 @@
 import React, { useEffect } from "react";
 import useMyStore from "../store/store";
-import { shallow } from "zustand/shallow";
-import { Link, useNavigate } from "react-router-dom";
+import { useShallow } from "zustand/react/shallow";
+import { useNavigate } from "react-router-dom";
 
 function Users() {
- const users = useMyStore((state) => state.users);
- const fetchUsers = useMyStore((state) => state.fetchUsers);
- const loading = useMyStore((state) => state.isLoading);
- let navigate = useNavigate();
+ const { users, fetchUsers, loading } = useMyStore(
+  useShallow((state) => ({
+   users: state.users,
+   fetchUsers: state.fetchUsers,
+   loading: state.isLoading,
+  })),
+ );
+
+ const navigate = useNavigate();
 
  useEffect(() => {
   fetchUsers();
-  console.log(users);
- }, []);
-
- useEffect(() => {
-  if (users.length > 0) {
-   console.log("Users Loaded:", users);
-  }
- }, [users]);
+ }, [fetchUsers]);
 
  if (loading) {
-  return <p className="p-5 mx-auto my-20">Loading users...</p>;
- }
- if (users.length === 0) {
-  return <p className="p-5 mx-auto my-20">No users available.</p>;
+  return (
+   <div className="flex justify-center items-center min-h-[400px]">
+    <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-sky-600"></div>
+   </div>
+  );
  }
 
  return (
-  <>
-   <main className="flex flex-wrap justify-center">
+  <div className="bg-gray-50 min-h-screen p-8">
+   <header className="max-w-6xl mx-auto mb-10 text-center">
+    <h1 className="text-3xl font-bold text-gray-800">User Directory</h1>
+    <p className="text-gray-500 mt-2">Manage and view system users</p>
+   </header>
+
+   <main className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
     {users.map((user) => (
-     <div key={user.id} className="m-2 w-120 text-sm border border-neutral-400 rounded-md shrink-0">
-      <nav className="w-full p-2 flex items-center bg-sky-600">
-       <h3 className="capitalize font-bold text-white">{user.role}</h3>
-       <div className="ml-auto">
-        <span>🔔</span>
-        <span>👤</span>
-       </div>
-      </nav>
-      <div className="">
-       <div className="flex gap-5 p-3">
+     <div
+      key={user.id}
+      className="group bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 overflow-hidden"
+     >
+      {/* Top Banner Accent */}
+      <div className="h-2 bg-sky-600"></div>
+
+      <div className="p-6 flex flex-col items-center">
+       {/* Profile Image with Ring */}
+       <div className="relative">
         <img
          src={user.image}
-         alt=""
-         className="shrink-0 aspect-square w-36 h-36"
+         alt={user.firstName}
+         className="w-24 h-24 rounded-full border-4 border-white shadow-md object-cover"
         />
-        <div className="grid [&>p]:flex [&>p]:gap-3">
-         <h3 className="text-xl font-bold capitalize my-5">user details</h3>
-         <p>
-          <strong>Name:</strong>
-          <span>
-           {user.firstName} {user.lastName}
-          </span>
-         </p>
-         <p>
-          <strong>Email:</strong>
-          <span>{user.email}</span>
-         </p>
-         <p>
-          <strong>Phone:</strong>
-          <span>{user.phone}</span>
-         </p>
-         <p>
-          <strong>Gender:</strong>
-          <span>{user.gender}</span>
-         </p>
-         <p>
-          <strong>Company:</strong>
-          <span>{user.company.name}</span>
-         </p>
+        <span className="absolute bottom-1 right-1 w-4 h-4 bg-green-500 border-2 border-white rounded-full"></span>
+       </div>
+
+       {/* User Identity */}
+       <div className="text-center mt-4">
+        <h2 className="text-xl font-bold text-gray-900 leading-tight">
+         {user.firstName} {user.lastName}
+        </h2>
+        <span className="inline-block mt-1 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-sky-700 bg-sky-50 rounded-full">
+         {user.role}
+        </span>
+       </div>
+
+       {/* Contact Info List */}
+       <div className="w-full mt-6 space-y-3 border-t border-gray-50 pt-6">
+        <div className="flex items-center text-sm text-gray-600">
+         <span className="mr-3 opacity-50">📧</span>
+         <span className="truncate">{user.email}</span>
+        </div>
+        <div className="flex items-center text-sm text-gray-600">
+         <span className="mr-3 opacity-50">📞</span>
+         <span>{user.phone}</span>
+        </div>
+        <div className="flex items-center text-sm text-gray-600">
+         <span className="mr-3 opacity-50">🏢</span>
+         <span className="font-medium text-gray-800">{user.company.name}</span>
         </div>
        </div>
+
+       {/* Action Button */}
        <button
-        className="my-5 border px-3 py-0.5 mx-auto"
         onClick={() => navigate(`/users/${user.id}`)}
+        className="w-full mt-6 py-2.5 px-4 bg-gray-900 text-white text-sm font-semibold rounded-xl hover:bg-sky-600 transition-colors duration-200"
        >
-        Full details
+        View Full Profile
        </button>
       </div>
      </div>
     ))}
    </main>
-  </>
+  </div>
  );
 }
 

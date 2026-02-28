@@ -12,7 +12,6 @@ export default function AdminRoute({ children }) {
 
   // Logged in but NOT admin
   if (user?.role != "admin") {
-    console.log(user);
     return <Navigate to="/" replace />;
   }
 

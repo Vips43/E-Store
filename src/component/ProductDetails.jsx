@@ -4,29 +4,31 @@ import { useEffect, useState } from "react";
 import PrImage from "./pr-component/PrImage";
 import RightSection from "./pr-component/RightSection";
 import { Box, CardContent } from "@mui/material";
-import LeftSection from './pr-component/LeftSection'
+import LeftSection from "./pr-component/LeftSection";
+import SuspenseLoader from "./oth-compo/SuspenseLoader";
 
 export default function ProductDetails() {
  const [item, setItem] = useState(null);
+
  document.title = "Product | details";
  const { title } = useParams();
 
  useEffect(() => {
   const getData = async () => {
    const res = await fetch(`https://dummyjson.com/products/search?q=${title}`);
-   const data = await res.json(); 
+   const data = await res.json();
    localStorage.setItem("prdetails", JSON.stringify(data));
    setItem(data.products?.[0] || null);
   };
-    getData()
+  getData();
  }, [title]);
 
  if (!item) {
-  return <p className="mx-auto my-10 p-5 text-2xl">Loading...</p>;
+  return <SuspenseLoader />;
  }
 
  return (
-  <Card> 
+  <Card>
    <Box>
     <Box
      sx={{
